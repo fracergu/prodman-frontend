@@ -1,0 +1,15 @@
+/build/**
+/coverage/**
+/dist/**
+/docs/**
+/e2e/**
+/node_modules/**
+/src/**/*spec.ts
+/src/**/*mock.ts
+/src/**/__snapshots__/**
+/src/**/shared/type/**
+/src/**/*model.ts
+/src/polyfills.ts
+/src/jest-global-mocks.ts
+/src/**/*.d.ts
+/src/**/layout/**

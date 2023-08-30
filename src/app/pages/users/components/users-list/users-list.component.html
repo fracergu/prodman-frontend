@@ -1,0 +1,137 @@
+<div class="card">
+  <div class="flex align-items-center justify-content-center">
+    <div class="flex-1">
+      <p-paginator
+        *ngIf="hasPagination$ | async"
+        #paginator
+        [rows]="15"
+        [totalRecords]="(totalItems$ | async)!"
+        (onPageChange)="onPageChange($event)"
+      ></p-paginator>
+    </div>
+    <div class="flex gap-1 justify-content-end pt-3 pb-3">
+      <div>
+        <p-button
+          icon="pi pi-plus"
+          styleClass="p-button-success"
+          (onClick)="opCreate.toggle($event)"
+        ></p-button>
+        <p-overlayPanel #opCreate>
+          <ng-container *ngIf="opCreate.overlayVisible">
+            <app-user-form
+              (submitEvent)="onCreate($event, opCreate)"
+            ></app-user-form>
+          </ng-container>
+        </p-overlayPanel>
+      </div>
+
+      <p-overlayPanel #opSearch>
+        <ng-container *ngIf="opSearch.overlayVisible">
+          <form [formGroup]="searchFormGroup">
+            <div class="flex flex-column gap-2">
+              <input
+                type="text"
+                pInputText
+                placeholder="Nombre"
+                formControlName="search"
+              />
+              <p-checkbox
+                [binary]="true"
+                label="Administrador"
+                formControlName="adminRole"
+              ></p-checkbox>
+              <p-checkbox
+                [binary]="true"
+                label="Usuario"
+                formControlName="userRole"
+              ></p-checkbox>
+              <p-checkbox
+                [binary]="true"
+                label="Inactivo"
+                formControlName="inactive"
+              ></p-checkbox>
+              <div class="flex justify-content-end">
+                <p-button
+                  label="Reiniciar"
+                  icon="pi pi-undo"
+                  styleClass="p-button-danger"
+                  (onClick)="resetSearch()"
+                ></p-button>
+              </div>
+            </div>
+          </form>
+        </ng-container>
+      </p-overlayPanel>
+      <p-button
+        icon="pi pi-search"
+        (onClick)="opSearch.toggle($event)"
+      ></p-button>
+    </div>
+  </div>
+
+  <ng-container *ngIf="users$ | async; else noItems">
+    <p-table
+      #table
+      [value]="(users$ | async)!"
+      [paginator]="false"
+      [rows]="15"
+      [totalRecords]="(totalItems$ | async)!"
+      [resizableColumns]="true"
+      [reorderableColumns]="true"
+      [globalFilterFields]="['name', 'lastName']"
+      [scrollable]="true"
+      scrollHeight="calc(100vh - 300px)"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="name">Nombre</th>
+          <th pSortableColumn="role">Rol</th>
+          <th pSortableColumn="active">Estado</th>
+          <th pSortableColumn="updatedAt">Actualizado</th>
+          <th class="text-right">Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user>
+        <tr>
+          <td>{{ getUserName(user) }}</td>
+          <td>
+            <p-tag
+              [value]="user.role === 'admin' ? 'Admin' : 'Usuario'"
+              [severity]="user.role === 'admin' ? 'danger' : 'success'"
+            ></p-tag>
+          </td>
+          <td>
+            <p-tag
+              [value]="user.active ? 'Activo' : 'Inactivo'"
+              [severity]="user.active ? 'success' : 'danger'"
+            ></p-tag>
+          </td>
+          <td>{{ user.updatedAt | date: 'dd/MM/yyyy' }}</td>
+          <td>
+            <div class="flex justify-content-end">
+              <p-overlayPanel #opEdit>
+                <ng-container *ngIf="opEdit.overlayVisible">
+                  <app-user-form
+                    [user]="user"
+                    [isEdit]="true"
+                    (submitEvent)="onUpdate($event, opEdit)"
+                  ></app-user-form>
+                </ng-container>
+              </p-overlayPanel>
+              <p-button
+                icon="pi pi-pencil"
+                styleClass="p-button-sm p-button-warning"
+                (onClick)="opEdit.toggle($event)"
+              ></p-button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </ng-container>
+  <ng-template #noItems>
+    <div class="flex align-items-center justify-content-center p-2">
+      <p>No se han encontrado usuarios</p>
+    </div>
+  </ng-template>
+</div>

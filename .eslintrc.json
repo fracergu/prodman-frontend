@@ -1,0 +1,71 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "node_modules",
+    "dist",
+    "coverage",
+    "setup-jest.ts",
+    "jest.config.js"
+  ],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "plugins": ["simple-import-sort"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": 0,
+        "@typescript-eslint/no-empty-function": 1,
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
+          }
+        ],
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error",
+        "@typescript-eslint/no-unused-vars": [
+          "warn",
+          {
+            "ignoreRestSiblings": true
+          }
+        ],
+        "no-magic-numbers": [
+          "warn",
+          {
+            "detectObjects": true,
+            "enforceConst": true,
+            "ignoreArrayIndexes": true
+          }
+        ],
+        "no-multiple-empty-lines": ["warn", { "max": 2, "maxEOF": 1 }],
+        "max-lines-per-function": ["warn", 50],
+        "max-nested-callbacks": ["error", 2]
+      }
+    },
+    {
+      "files": ["*.html"],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended",
+        "plugin:@angular-eslint/template/accessibility"
+      ],
+      "rules": {
+        "@angular-eslint/template/elements-content": "off"
+      }
+    }
+  ]
+}

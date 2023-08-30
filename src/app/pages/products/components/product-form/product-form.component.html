@@ -1,0 +1,109 @@
+<form [formGroup]="productForm" (ngSubmit)="submit()" style="max-width: 450px">
+  <div class="grid">
+    <!-- Primera fila -->
+    <div class="col-12">
+      <label for="basic-data">Información del producto</label>
+      <div class="grid" id="basic-data">
+        <div class="col-6">
+          <input
+            pInputText
+            placeholder="Nombre"
+            type="text"
+            id="name"
+            formControlName="name"
+          />
+        </div>
+        <div class="col-6">
+          <input
+            placeholder="Descripción"
+            pInputText
+            id="description"
+            formControlName="description"
+          />
+        </div>
+        <div class="col-6">
+          <input
+            placeholder="Referencia"
+            pInputText
+            id="category"
+            formControlName="reference"
+          />
+        </div>
+        <div class="col-6">
+          <input
+            placeholder="Precio"
+            pInputText
+            appDecimalNumber
+            type="text"
+            id="price"
+            formControlName="price"
+          />
+        </div>
+        <div class="col-6">
+          <p-checkbox
+            [binary]="true"
+            label="Activo"
+            id="active"
+            formControlName="active"
+          ></p-checkbox>
+        </div>
+      </div>
+    </div>
+
+    <!-- Segunda fila -->
+    <div class="col-12">
+      <label for="categories">Categorías</label>
+      <p-multiSelect
+        id="categories"
+        [options]="(categories$ | async)!"
+        defaultLabel="Seleccionar categorías"
+        formControlName="categories"
+        [optionLabel]="'name'"
+        display="chip"
+        [style]="{ width: '100%' }"
+      ></p-multiSelect>
+    </div>
+
+    <!-- Tercera fila -->
+    <div class="col-12">
+      <label for="msComponents">Componentes</label>
+      <app-product-multi-selector
+        [placeholder]="'Seleccionar componentes'"
+        formControlName="components"
+        [discartedProducts]="[product!]"
+      ></app-product-multi-selector>
+
+      <p-table
+        *ngIf="productComponents$ | async as components"
+        [value]="components"
+      >
+        <ng-template pTemplate="body" let-component>
+          <tr>
+            <td>{{ component.product.name }}</td>
+            <td>
+              <input
+                pInputText
+                type="text"
+                pKeyFilter="int"
+                [value]="component.quantity"
+                (input)="updateComponentQuantity($event, component)"
+              />
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <!-- Cuarta fila -->
+    <div class="col-12">
+      <div class="flex justify-content-around">
+        <button
+          pButton
+          type="submit"
+          [label]="isEdit ? 'Actualizar' : 'Crear'"
+          [disabled]="!productForm.valid"
+        ></button>
+      </div>
+    </div>
+  </div>
+</form>

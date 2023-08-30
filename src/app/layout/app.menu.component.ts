@@ -1,13 +1,14 @@
-import { OnInit } from '@angular/core';
-import { Component } from '@angular/core';
-import { LayoutService } from './service/app.layout.service';
+import { OnInit } from '@angular/core'
+import { Component } from '@angular/core'
+
+import { LayoutService } from './service/app.layout.service'
 
 @Component({
   selector: 'app-menu',
   templateUrl: './app.menu.component.html',
 })
 export class AppMenuComponent implements OnInit {
-  model: any[] = [];
+  model: any[] = []
 
   constructor(public layoutService: LayoutService) {}
 
@@ -17,7 +18,7 @@ export class AppMenuComponent implements OnInit {
         label: 'Inicio',
         items: [
           {
-            label: 'Panel de control',
+            label: 'Resumen',
             icon: 'pi pi-fw pi-home',
             routerLink: ['/'],
           },
@@ -51,13 +52,13 @@ export class AppMenuComponent implements OnInit {
             icon: 'pi pi-fw pi-chart-bar',
             routerLink: ['/production'],
           },
-          {
-            label: 'Stock',
-            icon: 'pi pi-fw pi-shopping-bag',
-            routerLink: ['/stocks'],
-          },
+          // {
+          //   label: 'Stock',
+          //   icon: 'pi pi-fw pi-shopping-bag',
+          //   routerLink: ['/stocks'],
+          // },
         ],
       },
-    ];
+    ]
   }
 }

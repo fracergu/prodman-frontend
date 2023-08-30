@@ -1,0 +1,62 @@
+<!-- eslint-disable @angular-eslint/template/elements-content -->
+<form
+  [formGroup]="taskForm"
+  class="grid"
+  [style]="{ width: '450px' }"
+  (ngSubmit)="onSubmitForm()"
+>
+  <app-user-selector class="col-12" formControlName="user"></app-user-selector>
+  <div class="col-12">
+    <input
+      type="text"
+      pInputText
+      placeholder="Notas"
+      formControlName="notes"
+      [style]="{ width: '100%' }"
+    />
+  </div>
+  <div class="col-12">
+    <label for="subtasks">Subtareas</label>
+    <app-product-multi-selector
+      id="subtasks"
+      formControlName="subtasksProducts"
+    ></app-product-multi-selector>
+  </div>
+
+  <p-orderList class="col-12" [value]="(subtasks$ | async)!" [dragdrop]="true">
+    <ng-template let-subtask let-i="index" pTemplate="item">
+      <div class="grid">
+        <div class="col-7 flex align-items-center text-xl text-900">
+          {{ subtask.product.name }}
+        </div>
+        <input
+          class="col-3"
+          pInputText
+          type="number"
+          pKeyFilter="int"
+          [value]="subtask.quantity"
+          (input)="updateQuantity(subtask, $event)"
+        />
+        <div class="col-2">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-times"
+            class="p-button-danger"
+            (click)="removeSubtaskFromView(subtask)"
+          ></button>
+        </div>
+      </div>
+    </ng-template>
+  </p-orderList>
+  <div class="col-12">
+    <div class="flex justify-content-around">
+      <button
+        pButton
+        type="submit"
+        [label]="isEdit ? 'Actualizar' : 'Crear'"
+        [disabled]="!taskForm.valid"
+      ></button>
+    </div>
+  </div>
+</form>

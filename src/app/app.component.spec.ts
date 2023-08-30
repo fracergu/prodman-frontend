@@ -1,29 +1,43 @@
-import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AppComponent } from './app.component';
+import { AppState } from '@redux/app.state'
+import { AppComponent } from './app.component'
+import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { MockStore, provideMockStore } from '@ngrx/store/testing'
+import { initialAppStateMock as initialState } from '@redux/app.state.mock'
+import { SharedModule } from '@shared/shared.module'
+import { MessageService } from 'primeng/api'
+import { RouterTestingModule } from '@angular/router/testing'
 
-describe('AppComponent', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    imports: [RouterTestingModule],
-    declarations: [AppComponent]
-  }));
+describe('GIVEN: AppComponent', () => {
+  let fixture: ComponentFixture<AppComponent>
+  let component: AppComponent
+  let store: MockStore<AppState>
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [SharedModule, RouterTestingModule],
+      declarations: [AppComponent],
+      providers: [
+        {
+          provide: MessageService,
+          useValue: {
+            add: jest.fn(),
+            clear: jest.fn(),
+          },
+        },
+        provideMockStore({ initialState }),
+      ],
+    }).compileComponents()
 
-  it(`should have as title 'prodman-frontend'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('prodman-frontend');
-  });
+    fixture = TestBed.createComponent(AppComponent)
+    component = fixture.componentInstance
+    store = TestBed.inject(MockStore)
+  })
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('prodman-frontend app is running!');
-  });
-});
+  it('THEN: should create the app', () => {
+    expect(component).toBeTruthy()
+  })
+
+  it('THEN: should have as title "Prodman"', () => {
+    expect(component.title).toEqual('Prodman')
+  })
+})

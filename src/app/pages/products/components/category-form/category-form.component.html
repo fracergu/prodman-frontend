@@ -1,0 +1,31 @@
+<form [formGroup]="categoryForm">
+  <div class="flex flex-column gap-2">
+    <input type="text" pInputText placeholder="Nombre" formControlName="name" />
+    <input
+      type="text"
+      pInputText
+      placeholder="Descripción"
+      formControlName="description"
+    />
+    <div class="flex w-100 justify-content-around">
+      <ng-container *ngIf="isEdit">
+        <p-button
+          class="mr-2"
+          label="Borrar"
+          icon="pi pi-times"
+          styleClass="p-button-danger"
+          (onClick)="confirm($event)"
+        ></p-button>
+        <p-confirmPopup></p-confirmPopup>
+      </ng-container>
+
+      <p-button
+        [label]="isEdit ? 'Actualizar' : 'Crear'"
+        icon="pi pi-check"
+        type="submit"
+        [disabled]="categoryForm.invalid"
+        (onClick)="submit()"
+      ></p-button>
+    </div>
+  </div>
+</form>

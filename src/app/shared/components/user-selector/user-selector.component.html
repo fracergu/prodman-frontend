@@ -1,0 +1,14 @@
+<p-dropdown
+  [options]="(options$ | async)!"
+  [showClear]="true"
+  [filter]="true"
+  [optionLabel]="'label'"
+  [placeholder]="'Usuario'"
+  [style]="{ width: '100%' }"
+  (onFilter)="onFilterUsers($event)"
+  [lazy]="true"
+  [(ngModel)]="selectedUser"
+  (onChange)="onSelectChange($event)"
+  emptyMessage="Escriba para buscar usuarios"
+  emptyFilterMessage="No se han encontrado usuarios"
+></p-dropdown>

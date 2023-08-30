@@ -11,30 +11,34 @@
         class="w-full surface-card py-8 px-5 sm:px-8"
         style="border-radius: 53px"
       >
-        <div>
-          <label for="email1" class="block text-900 text-xl font-medium mb-2"
-            >Email</label
-          >
+        <form [formGroup]="adminLoginForm" (ngSubmit)="onSubmit()">
+          <label for="username" class="block text-900 text-xl font-medium mb-2">
+            Usuario
+          </label>
           <input
-            id="email1"
+            id="username"
             type="text"
-            placeholder="Direccion de email"
+            placeholder="Nombre de usuario"
             pInputText
             class="w-full md:w-30rem mb-5"
             style="padding: 1rem"
+            formControlName="username"
           />
 
-          <label for="password1" class="block text-900 font-medium text-xl mb-2"
-            >Contraseña</label
+          <label
+            for="password1"
+            class="block text-900 font-medium text-xl mb-2"
           >
+            Contraseña
+          </label>
           <p-password
             id="password1"
-            [(ngModel)]="password"
             placeholder="Contraseña"
             [feedback]="false"
             [toggleMask]="true"
             styleClass="mb-5"
             inputStyleClass="w-full p-3 md:w-30rem"
+            formControlName="password"
           ></p-password>
 
           <div
@@ -45,25 +49,47 @@
                 id="rememberme1"
                 [binary]="true"
                 styleClass="mr-2"
+                formControlName="rememberMe"
               ></p-checkbox>
               <label for="rememberme1">Recuérdame</label>
             </div>
           </div>
+
+          <p-message
+            *ngIf="(authError$ | async)!"
+            severity="error"
+            [text]="'Usuario o contraseña incorrectos'"
+            styleClass="mb-5"
+          ></p-message>
           <button
             pButton
             pRipple
             label="Iniciar sesión"
             class="w-full p-3 text-xl"
-            [routerLink]="['/']"
+            (click)="onSubmit()"
+            [disabled]="adminLoginForm.invalid"
           ></button>
-        </div>
+        </form>
 
         <div class="flex align-items-center justify-content-center mt-5">
           <a
             [routerLink]="'/login'"
             class="text-900 text-l font-medium hover:underline"
-            >Acceso usuario</a
           >
+            Acceso usuario
+          </a>
+        </div>
+
+        <div
+          class="flex align-items-center justify-content-center mt-5"
+          *ngIf="isRegisterEnabled$ | async"
+        >
+          <a
+            [routerLink]="'/register'"
+            class="text-900 text-l font-medium hover:underline"
+          >
+            Registro
+          </a>
         </div>
       </div>
     </div>

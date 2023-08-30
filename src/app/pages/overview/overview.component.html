@@ -1,0 +1,40 @@
+<div class="card">
+  <div class="card-header">
+    <h2>
+      Resumen semana del {{ startDate | date: 'dd/MM' }} al
+      {{ endDate | date: 'dd/MM' }}
+    </h2>
+  </div>
+  <div class="grid">
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header mb-4"><b>Producción por producto</b></div>
+        <p-chart
+          type="doughnut"
+          [data]="productsPieChartData$ | async"
+          [options]="chartOptions"
+        ></p-chart>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header mb-4"><b>Producción por trabajador</b></div>
+        <p-chart
+          type="doughnut"
+          [data]="workersPieChartData$ | async"
+          [options]="chartOptions"
+        ></p-chart>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header mb-4"><b>Producción por día</b></div>
+        <p-chart
+          type="line"
+          [data]="productionByDayChartData$ | async"
+          [options]="chartOptions"
+        ></p-chart>
+      </div>
+    </div>
+  </div>
+</div>

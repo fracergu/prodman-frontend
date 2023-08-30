@@ -1,0 +1,119 @@
+<div class="card">
+  <div class="flex align-items-center justify-content-center">
+    <div class="flex-1">
+      <p-paginator
+        #paginator
+        [rows]="15"
+        [totalRecords]="(totalItems$ | async)!"
+        (onPageChange)="onPageChange()"
+      ></p-paginator>
+    </div>
+    <div class="flex gap-1 justify-content-end">
+      <div>
+        <p-button
+          icon="pi pi-plus"
+          styleClass="p-button-success"
+          (onClick)="opCreate.toggle($event)"
+        ></p-button>
+        <p-overlayPanel #opCreate>
+          <ng-container *ngIf="opCreate.overlayVisible">
+            <app-task-form
+              (submitEvent)="onCreateTask($event, opCreate)"
+            ></app-task-form>
+          </ng-container>
+        </p-overlayPanel>
+      </div>
+      <p-overlayPanel #opSearch>
+        <ng-container *ngIf="opSearch.overlayVisible">
+          <form
+            [formGroup]="searchFormGroup"
+            [style]="{ maxWidth: '250px' }"
+            class="grid"
+          >
+            <p-dropdown
+              class="col-12"
+              [options]="tasksStatuses"
+              [optionLabel]="'label'"
+              [placeholder]="'Estado'"
+              [showClear]="true"
+              formControlName="status"
+              [style]="{ width: '100%' }"
+            ></p-dropdown>
+            <app-user-selector
+              class="col-12"
+              formControlName="user"
+            ></app-user-selector>
+            <p-calendar
+              class="col-12"
+              [showIcon]="true"
+              [showTime]="false"
+              [placeholder]="'Desde'"
+              [dateFormat]="'dd/mm/yy'"
+              [maxDate]="calendarMaxDate"
+              [style]="{ width: '100%' }"
+              formControlName="fromDate"
+            ></p-calendar>
+          </form>
+        </ng-container>
+      </p-overlayPanel>
+      <p-button
+        icon="pi pi-search"
+        (onClick)="opSearch.toggle($event)"
+      ></p-button>
+    </div>
+  </div>
+  <p-table
+    #table
+    [value]="(tasks$ | async)!"
+    [paginator]="false"
+    [rows]="15"
+    [totalRecords]="(totalItems$ | async)!"
+    [resizableColumns]="true"
+    [reorderableColumns]="true"
+    [globalFilterFields]="['name', 'lastName']"
+    [scrollable]="true"
+    scrollHeight="calc(100vh - 300px)"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id">ID</th>
+        <th pSortableColumn="usuario">Usuario</th>
+        <th pSortableColumn="status">Estado</th>
+        <th pSortableColumn="created">Ult. Act</th>
+        <th pSortableColumn="percent">Porcentaje</th>
+        <th pSortableColumn="subtasks">Subtareas</th>
+        <th class="text-right">Acciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-task>
+      <tr>
+        <td>{{ task.id }}</td>
+        <td>{{ getUserName(task.user) }}</td>
+        <td>
+          <p-tag [severity]="getStatusTagColor(task.status)">
+            {{ getStatusTagText(task.status) }}
+          </p-tag>
+        </td>
+        <td>{{ task.updatedAt | date }}</td>
+        <td>{{ task.percentageCompleted }}</td>
+        <td>{{ task.subtasks.length }}</td>
+        <td class="flex gap-1 justify-content-end">
+          <p-button
+            icon="pi pi-pencil"
+            styleClass="p-button-sm p-button-warning"
+            (onClick)="opEdit.toggle($event)"
+          ></p-button>
+          <p-overlayPanel #opEdit>
+            <ng-container *ngIf="opEdit.overlayVisible">
+              <app-task-form
+                [task]="task"
+                [isEdit]="true"
+                (submitEvent)="onUpdateTask($event, opEdit)"
+              ></app-task-form>
+            </ng-container>
+          </p-overlayPanel>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

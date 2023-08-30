@@ -27,6 +27,44 @@
         layoutService.state.profileSidebarVisible
     }"
   >
+    <button
+      class="p-link layout-topbar-button"
+      (click)="configPanel.toggle($event)"
+    >
+      <i class="pi pi-cog"></i>
+      <span>Configuración</span>
+    </button>
+    <p-overlayPanel #configPanel [style]="{ width: '300px' }">
+      <ng-container *ngIf="configForm">
+        <form [formGroup]="configForm" *ngIf="configPanel.overlayVisible">
+          <div class="grid">
+            <div class="col-12">
+              <label for="registerEnabled">Habilitar registro</label>
+              <input
+                type="checkbox"
+                id="registerEnabled"
+                formControlName="registerEnabled"
+                pInputSwitch
+              />
+            </div>
+            <div class="col-12">
+              <label for="workerAutoTimeout">
+                Tiempo de desconexión automática
+              </label>
+              <p-dropdown
+                id="workerAutoTimeout"
+                formControlName="workerAutoTimeout"
+                optionValue="value"
+                [options]="workerAutoTimeoutOptions"
+                optionLabel="label"
+                [style]="{ width: '100%' }"
+              ></p-dropdown>
+            </div>
+          </div>
+        </form>
+      </ng-container>
+    </p-overlayPanel>
+
     <button class="p-link layout-topbar-button" (click)="onLogOut()">
       <i class="pi pi-sign-out"></i>
       <span>Cerrar sesión</span>

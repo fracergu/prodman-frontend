@@ -1,0 +1,13 @@
+<p-multiSelect
+  [options]="(options$ | async)!"
+  [showClear]="true"
+  [filter]="true"
+  [optionLabel]="'name'"
+  [placeholder]="placeholder"
+  [style]="{ width: '100%' }"
+  (onFilter)="onFilterChange($event)"
+  [lazy]="true"
+  (onChange)="onSelectorChange($event)"
+  (onClear)="onClearSelector()"
+  [(ngModel)]="selectedProducts"
+></p-multiSelect>

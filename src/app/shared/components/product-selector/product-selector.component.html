@@ -1,0 +1,14 @@
+<p-dropdown
+  [options]="(options$ | async)!"
+  [showClear]="true"
+  [filter]="true"
+  [optionLabel]="'name'"
+  [placeholder]="'Producto'"
+  [style]="{ width: '100%' }"
+  (onFilter)="onFilterProducts($event)"
+  [lazy]="true"
+  [(ngModel)]="selectedProduct"
+  (onChange)="onSelectChange($event)"
+  emptyMessage="Escriba para buscar productos"
+  emptyFilterMessage="No se han encontrado productos"
+/>

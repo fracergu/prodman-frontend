@@ -1,0 +1,65 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  <div class="flex flex-column gap-2">
+    <input type="text" pInputText placeholder="Nombre" formControlName="name" />
+    <input
+      type="text"
+      pInputText
+      placeholder="Apellido"
+      formControlName="lastName"
+    />
+    <input
+      type="text"
+      pInputText
+      placeholder="Nombre de usuario"
+      formControlName="username"
+    />
+    <p-dropdown
+      [style]="{ width: '100%' }"
+      [options]="roles"
+      placeholder="Rol"
+      formControlName="role"
+    ></p-dropdown>
+    <ng-container *ngIf="!isEdit">
+      <input
+        type="text"
+        pInputText
+        placeholder="PIN"
+        pKeyFilter="int"
+        maxlength="4"
+        formControlName="password"
+        *ngIf="userForm.get('role')?.value === 'user'"
+      />
+
+      <input
+        type="password"
+        pInputText
+        placeholder="Contraseña"
+        formControlName="password"
+        *ngIf="userForm.get('role')?.value === 'admin'"
+      />
+
+      <input
+        type="password"
+        pInputText
+        placeholder="Confirmar Contraseña"
+        formControlName="confirmPassword"
+        *ngIf="userForm.get('role')?.value === 'admin'"
+      />
+    </ng-container>
+
+    <p-checkbox
+      [binary]="true"
+      label="Activo"
+      formControlName="active"
+      *ngIf="isEdit"
+    ></p-checkbox>
+    <div class="flex justify-content-end">
+      <p-button
+        [label]="isEdit ? 'Actualizar' : 'Crear'"
+        icon="pi pi-check"
+        type="submit"
+        [disabled]="userForm.invalid"
+      ></p-button>
+    </div>
+  </div>
+</form>

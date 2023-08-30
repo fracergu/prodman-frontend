@@ -1,0 +1,144 @@
+<div
+  class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden"
+>
+  <div class="flex flex-column align-items-center justify-content-center">
+    <div style="border-radius: 56px; padding: 0.3rem">
+      <div class="flex align-items-center justify-content-center">
+        <h3>Registro</h3>
+      </div>
+
+      <div
+        class="w-full surface-card py-8 px-5 sm:px-8"
+        style="border-radius: 53px"
+      >
+        <form
+          [formGroup]="registerForm"
+          (ngSubmit)="onSubmit()"
+          class="flex flex-column"
+        >
+          <label
+            for="firstName"
+            class="block text-900 text-xl font-medium mb-2"
+          >
+            Nombre
+          </label>
+          <input
+            id="firstName"
+            type="text"
+            pInputText
+            class="w-full md:w-30rem mb-5"
+            style="padding: 1rem"
+            formControlName="name"
+          />
+
+          <label for="lastName" class="block text-900 text-xl font-medium mb-2">
+            Apellidos
+          </label>
+
+          <input
+            id="lastName"
+            type="text"
+            pInputText
+            class="w-full md:w-30rem mb-5"
+            style="padding: 1rem"
+            formControlName="lastName"
+          />
+
+          <label for="username" class="block text-900 text-xl font-medium mb-2">
+            Nombre de usuario
+          </label>
+
+          <input
+            appAutoGenerateUsername
+            [form]="registerForm"
+            id="username"
+            type="text"
+            pInputText
+            class="w-full md:w-30rem mb-5"
+            style="padding: 1rem"
+            formControlName="username"
+          />
+
+          <label for="password" class="block text-900 font-medium text-xl mb-2">
+            Contraseña
+          </label>
+          <p-password
+            id="password"
+            [feedback]="false"
+            [toggleMask]="true"
+            styleClass="mb-5"
+            inputStyleClass="w-full p-3 md:w-30rem"
+            formControlName="password"
+          ></p-password>
+
+          <label
+            for="confirmPassword"
+            class="block text-900 font-medium text-xl mb-2"
+          >
+            Confirmar contraseña
+          </label>
+
+          <p-password
+            id="confirmPassword"
+            [feedback]="false"
+            [toggleMask]="true"
+            styleClass="mb-5"
+            inputStyleClass="w-full p-3 md:w-30rem"
+            formControlName="confirmPassword"
+          ></p-password>
+
+          <p-message
+            severity="error"
+            styleClass="mb-5"
+            text="La contraseña debe tener al menos 8 caracteres"
+            *ngIf="
+              registerForm.get('password')?.touched &&
+              registerForm.get('password')?.invalid &&
+              registerForm.get('password')?.errors?.['minlength']
+            "
+          ></p-message>
+
+          <p-message
+            severity="error"
+            styleClass="mb-5"
+            text="Las contraseñas no coinciden"
+            *ngIf="
+              registerForm.get('password')?.touched &&
+              registerForm.get('password')?.invalid &&
+              registerForm.get('confirmPassword')?.touched &&
+              registerForm.get('confirmPassword')?.invalid
+            "
+          ></p-message>
+
+          <p-message
+            severity="error"
+            styleClass="mb-5"
+            text="El nombre de usuario no puede contener espacios"
+            *ngIf="
+              registerForm.get('username')?.touched &&
+              registerForm.get('username')?.invalid &&
+              registerForm.get('username')?.errors?.['spacesNotAllowed']
+            "
+          />
+
+          <button
+            pButton
+            pRipple
+            [disabled]="!registerForm.valid"
+            label="Registro"
+            class="w-full p-3 text-xl"
+          ></button>
+        </form>
+
+        <div class="flex align-items-center justify-content-center mt-5">
+          <a
+            [routerLink]="'/admin-login'"
+            class="text-900 text-l font-medium hover:underline"
+          >
+            Inicio de sesión
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

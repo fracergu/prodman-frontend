@@ -1,0 +1,87 @@
+<div class="flex align-items-center justify-content-center">
+  <div class="flex-1">
+    <p-paginator
+      *ngIf="(categories$ | async)!.length > 0"
+      #paginator
+      [rows]="6"
+      [totalRecords]="(categories$ | async)!.length"
+    ></p-paginator>
+  </div>
+  <div class="flex gap-1 justify-content-end pb-3 pt-3">
+    <div>
+      <p-button
+        icon="pi pi-plus"
+        styleClass="p-button-success"
+        (onClick)="opCreate.toggle($event)"
+      ></p-button>
+      <p-overlayPanel #opCreate>
+        <app-category-form
+          (submitEvent)="onCreate($event, opCreate)"
+        ></app-category-form>
+      </p-overlayPanel>
+    </div>
+    <p-overlayPanel #op>
+      <form [formGroup]="searchFormGroup">
+        <div class="flex flex-column gap-2">
+          <input
+            type="text"
+            pInputText
+            placeholder="Nombre o descripción"
+            formControlName="search"
+          />
+          <div class="flex justify-content-around">
+            <p-button
+              label="Reiniciar"
+              icon="pi pi-undo"
+              styleClass="p-button-danger"
+              (onClick)="resetSearch()"
+            ></p-button>
+          </div>
+        </div>
+      </form>
+    </p-overlayPanel>
+    <p-button icon="pi pi-search" (onClick)="op.toggle($event)"></p-button>
+  </div>
+</div>
+<p-table
+  *ngIf="(categories$ | async)!.length > 0; else noItems"
+  [value]="(categories$ | async)!"
+  [rows]="6"
+  [totalRecords]="(categories$ | async)!.length"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Nombre</th>
+      <th>Descripción</th>
+      <th class="text-right">Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-category>
+    <tr>
+      <td>{{ category.name }}</td>
+      <td>{{ category.description }}</td>
+      <td>
+        <div class="flex justify-content-end">
+          <p-button
+            icon="pi pi-pencil"
+            styleClass="p-button p-button-sm p-button-warning"
+            (onClick)="opEdit.toggle($event)"
+          ></p-button>
+          <p-overlayPanel #opEdit>
+            <app-category-form
+              [category]="category"
+              (submitEvent)="onUpdate($event, opEdit)"
+              (deleteEvent)="onDelete($event, opEdit)"
+              [isEdit]="true"
+            ></app-category-form>
+          </p-overlayPanel>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<ng-template #noItems>
+  <div class="flex align-items-center justify-content-center">
+    No se han encontrado categorías
+  </div>
+</ng-template>

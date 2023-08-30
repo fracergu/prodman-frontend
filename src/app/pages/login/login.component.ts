@@ -1,5 +1,24 @@
-import { Component } from '@angular/core';
-import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { Component, OnDestroy } from '@angular/core'
+import { FormBuilder, Validators } from '@angular/forms'
+import { Store } from '@ngrx/store'
+import { AppState } from '@redux/app.state'
+import { AuthActions, LoginType } from '@redux/auth/auth.actions'
+import { WorkerActions } from '@redux/worker/worker.actions'
+import {
+  selectActiveWorkers,
+  selectWorkerLoading,
+} from '@redux/worker/worker.selectors'
+import { ONE } from '@shared//constants'
+import {
+  distinctUntilChanged,
+  map,
+  shareReplay,
+  Subject,
+  takeUntil,
+  tap,
+} from 'rxjs'
+
+const PIN_LENGTH = 4
 
 @Component({
   selector: 'app-login',
@@ -12,89 +31,86 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
         margin-right: 1rem;
         color: var(--primary-color) !important;
       }
-
-      .pin-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(4, 1fr);
-        grid-gap: 10px;
-      }
-
-      .pin-button {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .pin-button button {
-        display: flex;
-        width: 65px;
-        height: 65px;
-        font-size: 36px;
-        vertical-align: middle;
-        justify-content: center;
-      }
     `,
   ],
 })
-export class LoginComponent {
-  valCheck: string[] = ['remember'];
+export class LoginComponent implements OnDestroy {
+  private _unsubscribe$ = new Subject<void>()
 
-  password: string = '';
+  loginForm = this._fb.group({
+    username: ['', Validators.required],
+    password: [
+      { value: '', disabled: true },
+      [
+        Validators.required,
+        Validators.minLength(PIN_LENGTH),
+        Validators.maxLength(PIN_LENGTH),
+      ],
+    ],
+  })
 
-  selectedUser: any;
+  enablePadObserver$ = this.loginForm.get('username')?.valueChanges.pipe(
+    takeUntil(this._unsubscribe$),
+    tap(value => {
+      if (value) {
+        this.loginForm.get('password')?.enable()
+      } else {
+        this.loginForm.get('password')?.reset()
+        this.loginForm.get('password')?.disable()
+      }
+    }),
+  )
 
-  onPinClick(value?: any) {
-    this.password += value;
+  constructor(
+    private _store: Store<AppState>,
+    private _fb: FormBuilder,
+  ) {
+    this._store.dispatch(WorkerActions.loadActiveWorkers())
+
+    this.enablePadObserver$?.subscribe()
   }
 
-  onDeleteClick() {
-    this.password = this.password.slice(0, -1);
+  ngOnDestroy(): void {
+    this._unsubscribe$.next()
+    this._unsubscribe$.complete()
+  }
+
+  loading$ = this._store
+    .select(selectWorkerLoading)
+    .pipe(
+      shareReplay({ bufferSize: ONE, refCount: true }),
+      distinctUntilChanged(),
+    )
+
+  activeWorkers$ = this._store
+    .select(selectActiveWorkers)
+    .pipe(
+      shareReplay({ bufferSize: ONE, refCount: true }),
+      distinctUntilChanged(),
+      map(this._generateUserLabel),
+    )
+
+  valCheck: string[] = ['remember']
+
+  private _generateUserLabel(user: any[]) {
+    return user.map(u => ({
+      ...u,
+      label: `${u.name} ${u.lastName}`.trim(),
+    }))
   }
 
   onLoginClick() {
-    console.log('login');
+    if (this.loginForm.invalid) return
+
+    const username = this.loginForm.get('username')?.value
+    const password = this.loginForm.get('password')?.value
+
+    if (!username || !password) return
+
+    const credentials = { username, password }
+
+    this._store.dispatch(
+      AuthActions.login({ credentials, loginType: LoginType.USER }),
+    )
   }
-
-  usersMock: any[] = [
-    {
-      id: 1,
-      name: 'John Doe',
-    },
-    {
-      id: 2,
-      name: 'Jane Doe',
-    },
-    {
-      id: 3,
-      name: 'John Smith',
-    },
-    {
-      id: 1,
-      name: 'John Doe',
-    },
-    {
-      id: 2,
-      name: 'Jane Doe',
-    },
-    {
-      id: 3,
-      name: 'John Smith',
-    },
-    {
-      id: 1,
-      name: 'John Doe',
-    },
-    {
-      id: 2,
-      name: 'Jane Doe',
-    },
-    {
-      id: 3,
-      name: 'John Smith',
-    },
-  ];
-
-  constructor(public layoutService: LayoutService) {}
 }

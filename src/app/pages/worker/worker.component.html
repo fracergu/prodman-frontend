@@ -1,0 +1,17 @@
+<p-progressBar
+  *ngIf="workerAutoTimeout$ | async"
+  [value]="progressValue"
+  [showValue]="false"
+  [style]="{ borderRadius: '0px' }"
+></p-progressBar>
+<div style="max-width: 75vw; margin-left: auto; margin-right: auto">
+  <app-task-view [task]="(currentTask$ | async)!"></app-task-view>
+  <div class="w-100 flex justify-content-around">
+    <p-button
+      styleClass="p-button-danger p-button-lg font-bold justify-content-center"
+      icon="pi pi-sign-out"
+      label="Salir"
+      (click)="logout()"
+    ></p-button>
+  </div>
+</div>

@@ -11,87 +11,62 @@
         class="w-full surface-card py-8 px-5 sm:px-8"
         style="border-radius: 53px"
       >
-        <div>
+        <form [formGroup]="loginForm">
           <label
             for="user-selector"
             class="block text-900 text-xl font-medium mb-2"
-            >Usuario</label
           >
+            Usuario
+          </label>
           <div id="user-selector" class="w-full md:w-30rem mb-2">
             <p-dropdown
-              [options]="usersMock"
-              [(ngModel)]="selectedUser"
-              optionLabel="name"
+              *ngIf="(loading$ | async) === false"
+              [options]="(activeWorkers$ | async)!"
+              optionLabel="label"
               [style]="{ width: '100%' }"
               [filter]="false"
               [showClear]="true"
               placeholder="Selecciona un usuario"
+              [optionValue]="'username'"
+              formControlName="username"
             ></p-dropdown>
           </div>
 
           <div
             class="flex align-items-center justify-content-center mt-5 mb-5 gap-5"
+            style="min-height: 18.5px"
           >
-            <div *ngFor="let number of password.toString().split('')">
+            <div
+              *ngFor="let number of loginForm.get('password')?.value?.split('')"
+            >
               <i class="pi pi-circle-on"></i>
             </div>
           </div>
 
-          <div id="pin" class="pin-grid">
-            <div
-              *ngFor="let number of [1, 2, 3, 4, 5, 6, 7, 8, 9]"
-              class="pin-button"
+          <app-numeric-pad [maxLength]="4" formControlName="password">
+            <button
+              pButton
+              class="p-button-success"
+              [disabled]="loginForm.invalid"
+              style="width: 65px; height: 65px"
+              (click)="onLoginClick()"
             >
-              <button
-                pButton
-                (click)="onPinClick(number)"
-                [disabled]="!selectedUser || password.toString().length === 4"
-              >
-                {{ number }}
-              </button>
-            </div>
-            <div class="pin-button">
-              <button
-                pButton
-                (click)="onLoginClick()"
-                class="p-button-success"
-                [disabled]="!selectedUser || password.toString().length < 4"
-              >
-                <i class="pi pi-sign-in" style="font-size: 2rem"></i>
-              </button>
-            </div>
-            <div class="pin-button">
-              <button
-                pButton
-                (click)="onPinClick(0)"
-                [disabled]="!selectedUser || password.toString().length === 4"
-              >
-                0
-              </button>
-            </div>
-            <div class="pin-button">
-              <button
-                pButton
-                (click)="onDeleteClick()"
-                class="p-button-danger"
-                [disabled]="!password.toString().length || !selectedUser"
-              >
-                <i class="pi pi-delete-left" style="font-size: 2rem"></i>
-              </button>
-            </div>
-          </div>
+              <i class="pi pi-sign-in" style="font-size: 2rem"></i>
+            </button>
+          </app-numeric-pad>
 
           <div
             class="flex align-items-center justify-content-between mb-5 gap-5"
           ></div>
-        </div>
+        </form>
 
         <div class="flex align-items-center justify-content-center mt-5">
           <a
             [routerLink]="'/admin-login'"
             class="text-900 text-l font-medium hover:underline"
-            >Acceso administrador</a
           >
+            Acceso administrador
+          </a>
         </div>
       </div>
     </div>

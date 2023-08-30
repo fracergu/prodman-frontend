@@ -1,0 +1,79 @@
+<div class="card">
+  <div class="flex align-items-center justify-content-center">
+    <div class="flex-1">
+      <p-paginator
+        *ngIf="hasPagination$ | async"
+        #paginator
+        [rows]="25"
+        [totalRecords]="(totalItems$ | async)!"
+        (onPageChange)="onPageChange($event)"
+      ></p-paginator>
+    </div>
+    <div class="flex gap-1 justify-content-end pt-3 pb-3">
+      <p-overlayPanel #opSearch>
+        <ng-container *ngIf="opSearch.overlayVisible">
+          <form [formGroup]="searchFormGroup" style="min-width: 250px">
+            <div class="flex flex-column gap-2">
+              <app-user-selector formControlName="user" />
+              <p-calendar
+                [showIcon]="true"
+                [showTime]="false"
+                selectionMode="range"
+                formControlName="dateRanges"
+                [maxDate]="maxDate"
+              />
+              <app-product-selector formControlName="product" />
+
+              <div class="flex justify-content-end">
+                <p-button
+                  label="Reiniciar"
+                  icon="pi pi-undo"
+                  styleClass="p-button-danger"
+                  (onClick)="resetSearch()"
+                ></p-button>
+              </div>
+            </div>
+          </form>
+        </ng-container>
+      </p-overlayPanel>
+      <p-button
+        icon="pi pi-search"
+        (onClick)="opSearch.toggle($event)"
+      ></p-button>
+    </div>
+  </div>
+  <ng-container *ngIf="productions$ | async; else noItems">
+    <p-table
+      #table
+      [value]="(productions$ | async)!"
+      [rows]="25"
+      [totalRecords]="(totalItems$ | async)!"
+      [scrollable]="true"
+      [scrollHeight]="'calc(100vh - 300px)'"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="task">ID Tarea</th>
+          <th pSortableColumn="user">Usuario</th>
+          <th pSortableColumn="product">Producto</th>
+          <th pSortableColumn="quantity">Cantidad</th>
+          <th pSortableColumn="date">Fecha</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-production>
+        <tr>
+          <td>{{ production.subtask.task.id }}</td>
+          <td>{{ getUserName(production.subtask.task.user) }}</td>
+          <td>{{ production.subtask.product.name }}</td>
+          <td>{{ production.quantityCompleted }}</td>
+          <td>{{ production.timestamp | date: 'dd/MM/yyyy HH:mm' }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </ng-container>
+  <ng-template #noItems>
+    <div class="flex align-items-center justify-content-center p-2">
+      <p>No se han encontrado registros</p>
+    </div>
+  </ng-template>
+</div>

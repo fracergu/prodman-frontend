@@ -1,0 +1,18 @@
+<div class="card m-4">
+  <ng-container *ngIf="!!task">
+    <h2>Tarea actual: #{{ task.id }}</h2>
+    <div class="mt-2" *ngIf="!!task.notes">
+      <p>Notas:</p>
+      <div class="card" id="notes">
+        {{ task.notes }}
+      </div>
+    </div>
+    <h3>{{ task.subtasks.length | i18nPlural: pluralMapping }}</h3>
+    <ng-container *ngFor="let st of task.subtasks">
+      <app-subtask-view [subtask]="st"></app-subtask-view>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="!task">
+    <h2>No hay tareas asignadas</h2>
+  </ng-container>
+</div>
