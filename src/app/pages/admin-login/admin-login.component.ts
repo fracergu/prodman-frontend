@@ -51,8 +51,10 @@ export class AdminLoginComponent {
   onSubmit() {
     if (this.adminLoginForm.invalid) return
 
-    const username: string = this.adminLoginForm.get('username')?.value || ''
-    const password: string = this.adminLoginForm.get('password')?.value || ''
+    const username: string = this.adminLoginForm.get('username')
+      ?.value as string
+    const password: string = this.adminLoginForm.get('password')
+      ?.value as string
 
     const credentials: AuthCredentials = { username, password }
 
