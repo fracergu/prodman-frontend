@@ -102,10 +102,8 @@ export class LoginComponent implements OnDestroy {
   onLoginClick() {
     if (this.loginForm.invalid) return
 
-    const username = this.loginForm.get('username')?.value
-    const password = this.loginForm.get('password')?.value
-
-    if (!username || !password) return
+    const username = this.loginForm.get('username')?.value as string
+    const password = this.loginForm.get('password')?.value as string
 
     const credentials = { username, password }
 

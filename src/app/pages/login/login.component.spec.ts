@@ -18,8 +18,13 @@ describe('LoginComponent', () => {
   const initialState = {
     worker: {
       loading: false,
-      activeWorkers: [],
-      // ... other initial states
+      activeWorkers: [
+        {
+          id: 1,
+          name: 'testUser',
+          lastName: 'testUser',
+        },
+      ],
     },
   }
 
@@ -66,6 +71,18 @@ describe('LoginComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       AuthActions.login({
         credentials: { username: 'testUser', password: '1234' },
+        loginType: LoginType.USER,
+      }),
+    )
+  })
+
+  it('THEN: should not dispatch AuthActions.login when form is invalid', () => {
+    component.loginForm.get('username')?.setValue('')
+    component.loginForm.get('password')?.setValue('')
+    component.onLoginClick()
+    expect(store.dispatch).not.toHaveBeenCalledWith(
+      AuthActions.login({
+        credentials: { username: '', password: '' },
         loginType: LoginType.USER,
       }),
     )
