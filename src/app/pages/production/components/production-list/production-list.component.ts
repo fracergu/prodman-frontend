@@ -117,30 +117,28 @@ export class ProductionListComponent implements OnDestroy {
 
     const userId = formValue.user?.id
     const productId = formValue.product?.id
+    const dateRanges = formValue.dateRanges as Date[]
 
-    const startDate = formValue.dateRanges
-      ? new Date(
-          formValue.dateRanges[0].setHours(ZERO, ZERO, ZERO, ZERO),
-        ).toISOString()
-      : undefined
-    const endDate = formValue.dateRanges
-      ? new Date(
-          formValue.dateRanges[1].setHours(
-            MAX_DATE_HOURS,
-            MAX_DATE_MINUTES,
-            MAX_DATE_SECONDS,
-            MAX_DATE_MILLISECONDS,
-          ),
-        ).toISOString()
-      : undefined
+    const startDate = new Date(
+      dateRanges[0].setHours(ZERO, ZERO, ZERO, ZERO),
+    ).toISOString()
+
+    const endDate = new Date(
+      dateRanges[1].setHours(
+        MAX_DATE_HOURS,
+        MAX_DATE_MINUTES,
+        MAX_DATE_SECONDS,
+        MAX_DATE_MILLISECONDS,
+      ),
+    ).toISOString()
 
     const query = {
       page: ONE,
       limit: DEFAULT_PAGE_SIZE,
-      userId: userId ? userId : undefined,
-      productId: productId ? productId : undefined,
-      startDate: startDate ? startDate : undefined,
-      endDate: endDate ? endDate : undefined,
+      userId,
+      productId,
+      startDate,
+      endDate,
     }
 
     return query
@@ -159,7 +157,7 @@ export class ProductionListComponent implements OnDestroy {
     )
   }
 
-  getUserName(user: { id: number; name: string; lastName: string }) {
+  getUserName(user: { id: number; name: string; lastName?: string }) {
     return `${user.name} ${user.lastName ? user.lastName : ''}`.trim()
   }
 
