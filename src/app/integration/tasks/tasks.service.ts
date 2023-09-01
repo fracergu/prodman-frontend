@@ -1,8 +1,11 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { PaginatedResponse } from '@shared/models/paginated-response'
-import { TaskResponse, TasksSearchParameters } from '@shared/models/task.model'
-import { TaskRequest } from '@shared/models/task-request.model'
+import {
+  TaskRequest,
+  TasksSearchParameters,
+} from '@shared/models/task-request.model'
+import { TaskResponse } from '@shared/models/task-response.model'
 import { httpParamsGenerator } from '@shared/utils/http-params-generator'
 import { Observable } from 'rxjs'
 
@@ -27,9 +30,6 @@ export class TasksService implements TasksServiceIntegrationApi {
         params: httpParamsGenerator(params),
       },
     )
-  }
-  getTask(id: number): Observable<TaskResponse> {
-    return this._http.get<TaskResponse>(`${this._api.tasksUrl}/${id}`)
   }
   createTask(task: TaskRequest): Observable<TaskResponse> {
     return this._http.post<TaskResponse>(`${this._api.tasksUrl}`, task)

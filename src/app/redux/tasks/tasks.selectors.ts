@@ -5,12 +5,9 @@ import { tasksAdapter } from './tasks.state'
 
 export const selectTasksState = (state: AppState) => state.tasks
 
-const { selectAll, selectEntities } = tasksAdapter.getSelectors()
+const { selectAll } = tasksAdapter.getSelectors()
 
 export const selectTasks = createSelector(selectTasksState, selectAll)
-
-export const selectEntity = (id: number) =>
-  createSelector(selectEntities, entities => entities[id])
 
 export const selectTasksLoading = createSelector(
   selectTasksState,

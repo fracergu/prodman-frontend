@@ -5,12 +5,9 @@ import { usersAdapter } from './users.state'
 
 export const selectUsersState = (state: AppState) => state.users
 
-const { selectAll, selectEntities } = usersAdapter.getSelectors()
+const { selectAll } = usersAdapter.getSelectors()
 
 export const selectUsers = createSelector(selectUsersState, selectAll)
-
-export const selectEntity = (id: number) =>
-  createSelector(selectEntities, entities => entities[id])
 
 export const selectUsersLoading = createSelector(
   selectUsersState,

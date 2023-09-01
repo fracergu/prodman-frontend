@@ -4,10 +4,7 @@ import { Store } from '@ngrx/store'
 import { AppState } from '@redux/app.state'
 import { AuthActions } from '@redux/auth/auth.actions'
 import { ONE } from '@shared//constants'
-import {
-  noSpacesValidator,
-  passwordMatchValidator,
-} from '@shared/validators/custom-validators'
+import { CustomValidators } from '@shared/validators/custom-validators'
 
 const PASSWORD_MIN_LENGTH = 8
 
@@ -36,13 +33,20 @@ export class RegisterComponent {
     lastName: [''],
     username: [
       '',
-      [Validators.required, Validators.minLength(ONE), noSpacesValidator],
+      [
+        Validators.required,
+        Validators.minLength(ONE),
+        CustomValidators.NoSpaces,
+      ],
     ],
     password: [
       '',
       [Validators.required, Validators.minLength(PASSWORD_MIN_LENGTH)],
     ],
-    confirmPassword: ['', [Validators.required, passwordMatchValidator]],
+    confirmPassword: [
+      '',
+      [Validators.required, CustomValidators.PasswordMatch],
+    ],
   })
 
   onSubmit() {

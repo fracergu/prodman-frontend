@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store'
 import { PaginatedResponse } from '@shared/models/paginated-response'
-import { TaskResponse } from '@shared/models/task.model'
+import { TaskResponse } from '@shared/models/task-response.model'
 
 import { TasksActions } from './tasks.actions'
 import { initialTasksState, tasksAdapter, TasksState } from './tasks.state'

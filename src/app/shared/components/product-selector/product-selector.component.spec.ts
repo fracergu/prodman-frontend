@@ -10,7 +10,7 @@ import { of, Subject } from 'rxjs'
 import { ProductSelectorComponent } from './product-selector.component'
 import { DEFAULT_DEBOUNCE_TIME } from '../../constants'
 import { ProductResponse } from '../../models/product-response.model'
-import { PRODUCT_REPONSE_MOCK } from '@mocks/product.mock'
+import { PRODUCT_RESPONSE_MOCK } from '@mocks/product.mock'
 
 describe('GIVEN: ProductSelectorComponent', () => {
   let fixture: ComponentFixture<ProductSelectorComponent>
@@ -18,7 +18,7 @@ describe('GIVEN: ProductSelectorComponent', () => {
   let mockProductsService: Partial<ProductsService>
   let mockFilter$: Subject<string>
 
-  const mockProducts: ProductResponse[] = PRODUCT_REPONSE_MOCK
+  const mockProducts: ProductResponse[] = PRODUCT_RESPONSE_MOCK
 
   beforeEach(async () => {
     mockFilter$ = new Subject<string>()

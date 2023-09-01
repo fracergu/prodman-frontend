@@ -57,7 +57,7 @@ export class ProductMultiSelectorComponent
   }
 
   private _getUpdatedOptions(data: Partial<ProductResponse>[]) {
-    const currentOptions = this.options$.value || []
+    const currentOptions = this.options$.value
     const mergedOptions = [...currentOptions, ...data]
     const uniqueOptions = this._getUniqueOptions(mergedOptions)
     return uniqueOptions
@@ -79,7 +79,7 @@ export class ProductMultiSelectorComponent
           product => !this.discartedProducts.some(dp => dp.id === product.id),
         )
 
-      const currentOptions = this.options$.value || []
+      const currentOptions = this.options$.value
       const mergedOptions = [...currentOptions, ...this.selectedProducts]
       const uniqueOptions = mergedOptions.filter(
         (option, index, array) =>

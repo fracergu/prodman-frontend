@@ -1,11 +1,3 @@
-export interface TasksSearchParameters {
-  page: number
-  limit: number
-  status?: string
-  fromDate?: Date
-  userId?: number
-}
-
 export interface TaskResponse {
   id: number
   createdAt: Date

@@ -19,7 +19,7 @@ export interface WorkerTaskSubtask {
 
 interface WorkerTaskSubtaskEvent {
   id: number
-  timetamp: Date
+  timestamp: Date
   quantityCompleted: number
 }
 

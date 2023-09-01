@@ -6,7 +6,7 @@ export interface AuthenticationServiceIntegrationApi {
   login(
     authCredentials: AuthCredentials,
     rememberMe?: boolean,
-  ): Observable<null>
+  ): Observable<void>
   logout(): Observable<null>
   register(data: RegisterRequest): Observable<null>
   checkSession(): Observable<null>

@@ -13,10 +13,10 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms'
-import { Subject, takeUntil } from 'rxjs'
 import { AutoGenerateUsernameDirective } from '@shared/directives/auto-generate-username.directive'
 import { UserRequest } from '@shared/models/user-request.model'
 import { UserResponse, UserRolesObj } from '@shared/models/user-response.model'
+import { Subject, takeUntil } from 'rxjs'
 
 @Component({
   selector: 'app-user-form',

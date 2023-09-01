@@ -23,3 +23,8 @@ export const selectWorkerLoaded = createSelector(
   selectWorkerState,
   workerState => workerState.loaded,
 )
+
+export const selectWorkerError = createSelector(
+  selectWorkerState,
+  workerState => workerState.error,
+)

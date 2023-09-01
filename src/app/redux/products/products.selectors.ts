@@ -5,12 +5,9 @@ import { productsAdapter } from './products.state'
 
 export const selectProductsState = (state: AppState) => state.products
 
-const { selectAll, selectEntities } = productsAdapter.getSelectors()
+const { selectAll } = productsAdapter.getSelectors()
 
 export const selectProducts = createSelector(selectProductsState, selectAll)
-
-export const selectEntity = (id: number) =>
-  createSelector(selectEntities, entities => entities[id])
 
 export const selectProductsLoading = createSelector(
   selectProductsState,

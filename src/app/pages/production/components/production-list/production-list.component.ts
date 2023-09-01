@@ -64,7 +64,7 @@ export class ProductionListComponent implements OnDestroy {
 
   maxDate = new Date()
 
-  private _defaultDateRanges = [
+  defaultDateRanges = [
     new Date(new Date().setDate(new Date().getDate() - new Date().getDay())),
     new Date(),
   ]
@@ -72,7 +72,7 @@ export class ProductionListComponent implements OnDestroy {
   searchFormGroup = this._fb.group({
     user: null,
     product: null,
-    dateRanges: [this._defaultDateRanges],
+    dateRanges: [this.defaultDateRanges],
   })
 
   private _searchForgroupChanges$ = this.searchFormGroup.valueChanges.pipe(
@@ -149,7 +149,7 @@ export class ProductionListComponent implements OnDestroy {
   private _dispatchWithQuery(customPage?: number) {
     const { page, limit, ...query } = this._generateSearchQuery()
     this._store.dispatch(
-      ProductionActions.loadProductions({
+      ProductionActions.loadProduction({
         params: {
           page: customPage || page,
           limit: DEFAULT_PAGE_SIZE,
@@ -171,7 +171,7 @@ export class ProductionListComponent implements OnDestroy {
     this.searchFormGroup.setValue({
       user: null,
       product: null,
-      dateRanges: this._defaultDateRanges,
+      dateRanges: this.defaultDateRanges,
     })
   }
 }

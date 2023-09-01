@@ -10,6 +10,11 @@ import {
   selectUsersTotalItems,
 } from '@redux/users/users.selectors'
 import {
+  DEFAULT_DEBOUNCE_TIME,
+  DEFAULT_PAGE_SIZE,
+  ONE,
+} from '@shared//constants'
+import {
   UserRequest,
   UserSearchParameters,
 } from '@shared/models/user-request.model'
@@ -24,11 +29,6 @@ import {
   Subject,
   takeUntil,
 } from 'rxjs'
-import {
-  DEFAULT_DEBOUNCE_TIME,
-  DEFAULT_PAGE_SIZE,
-  ONE,
-} from '@shared//constants'
 
 @Component({
   selector: 'app-users-list',

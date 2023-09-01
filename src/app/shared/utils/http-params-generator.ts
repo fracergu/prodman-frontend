@@ -1,6 +1,5 @@
 import { HttpParams } from '@angular/common/http'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const httpParamsGenerator = (input: any) => {
   let params = new HttpParams()
   Object.keys(input).forEach(key => {

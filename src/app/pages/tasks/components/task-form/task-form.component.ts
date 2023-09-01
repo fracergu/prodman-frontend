@@ -11,8 +11,12 @@ import {
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms'
 import { ONE } from '@shared//constants'
 import { ProductResponse } from '@shared/models/product-response.model'
-import { Subtask, TaskResponse, TaskStatus } from '@shared/models/task.model'
 import { TaskRequest } from '@shared/models/task-request.model'
+import {
+  Subtask,
+  TaskResponse,
+  TaskStatus,
+} from '@shared/models/task-response.model'
 import { BehaviorSubject, map, Subject, takeUntil } from 'rxjs'
 
 const DRAG_POINTER_DIRECTION_CHANGE_THRESHOLD = 5

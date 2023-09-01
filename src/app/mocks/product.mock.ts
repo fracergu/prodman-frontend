@@ -1,6 +1,17 @@
+import { ProductRequest } from '@shared/models/product-request.model'
 import { ProductResponse } from '@shared/models/product-response.model'
 
-export const PRODUCT_REPONSE_MOCK: ProductResponse[] = [
+export const PRODUCT_REQUEST_MOCK: ProductRequest = {
+  name: 'Product 3',
+  description: 'Product 3 description',
+  price: 23,
+  reference: 'REF-00003123',
+  active: true,
+  categories: [1, 2, 3],
+  components: [],
+}
+
+export const PRODUCT_RESPONSE_MOCK: ProductResponse[] = [
   {
     id: 1,
     name: 'Product 3',

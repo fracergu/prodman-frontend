@@ -6,7 +6,7 @@ import { WorkerTaskResponse } from '@shared/models/worker-task-response'
   templateUrl: './task-view.component.html',
 })
 export class TaskViewComponent {
-  @Input() task!: WorkerTaskResponse
+  @Input() task?: WorkerTaskResponse
 
   pluralMapping = {
     '=1': 'Subtarea:',

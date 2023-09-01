@@ -18,3 +18,8 @@ export const selectConfigLoaded = createSelector(
   selectConfigState,
   configState => configState.loaded,
 )
+
+export const selectConfigError = createSelector(
+  selectConfigState,
+  configState => configState.error,
+)

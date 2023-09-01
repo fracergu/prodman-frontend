@@ -11,12 +11,12 @@ import {
 
 const _productionReducer = createReducer(
   initialProductionState,
-  on(ProductionActions.loadProductions, state => ({
+  on(ProductionActions.loadProduction, state => ({
     ...state,
     loading: true,
   })),
-  on(ProductionActions.loadProductionsSuccess, _loadProductionsSucces),
-  on(ProductionActions.loadProductionsFailure, (state, { error }) => ({
+  on(ProductionActions.loadProductionSuccess, _loadProductionSuccess),
+  on(ProductionActions.loadProductionFailure, (state, { error }) => ({
     ...state,
     loading: false,
     loaded: false,
@@ -42,7 +42,7 @@ const _productionReducer = createReducer(
   })),
 )
 
-function _loadProductionsSucces(
+function _loadProductionSuccess(
   state: ProductionState,
   data: PaginatedResponse<ProductionResponse>,
 ) {

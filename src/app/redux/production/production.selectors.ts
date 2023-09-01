@@ -5,12 +5,9 @@ import { productionAdapter } from './production.state'
 
 export const selectProductionState = (state: AppState) => state.production
 
-const { selectAll, selectEntities } = productionAdapter.getSelectors()
+const { selectAll } = productionAdapter.getSelectors()
 
 export const selectProduction = createSelector(selectProductionState, selectAll)
-
-export const selectEntity = (id: number) =>
-  createSelector(selectEntities, entities => entities[id])
 
 export const selectProductionLoading = createSelector(
   selectProductionState,

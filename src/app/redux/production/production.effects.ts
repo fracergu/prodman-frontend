@@ -15,17 +15,17 @@ export class ProductionEffects {
     private _ms: MessageService,
   ) {}
 
-  loadProuction$ = createEffect(() =>
+  loadProduction$ = createEffect(() =>
     this._actions$.pipe(
       ofType(ProductionActionType.LOAD_PRODUCTIONS),
       switchMap(({ params }) =>
         this._productionService.getProduction(params).pipe(
           map(resp => {
-            return ProductionActions.loadProductionsSuccess(resp)
+            return ProductionActions.loadProductionSuccess(resp)
           }),
           catchError(error => {
             this._showErrorMessage(error)
-            return of(ProductionActions.loadProductionsFailure({ error }))
+            return of(ProductionActions.loadProductionFailure({ error }))
           }),
         ),
       ),

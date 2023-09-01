@@ -1,3 +1,5 @@
+import { TaskStatus } from './task-response.model'
+
 export interface ProductionResponse {
   id: number
   timestamp: Date
@@ -9,7 +11,7 @@ interface Subtask {
   id: number
   quantity: number
   order: number
-  status: Status
+  status: TaskStatus
   product: Product
   task: Task
 }
@@ -17,15 +19,12 @@ interface Subtask {
 interface Product {
   id: number
   name: string
-}
-
-enum Status {
-  Completed = 'completed',
+  reference?: string
 }
 
 interface Task {
   id: number
-  status: Status
+  status: TaskStatus
   user: User
 }
 

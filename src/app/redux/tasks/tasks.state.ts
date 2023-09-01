@@ -1,5 +1,5 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity'
-import { TaskResponse } from '@shared/models/task.model'
+import { TaskResponse } from '@shared/models/task-response.model'
 
 export interface TasksState extends EntityState<TaskResponse> {
   nextPage?: number | null

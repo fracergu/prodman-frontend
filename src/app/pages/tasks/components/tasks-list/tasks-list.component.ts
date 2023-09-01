@@ -10,8 +10,11 @@ import {
   selectTasksTotalItems,
 } from '@redux/tasks/tasks.selectors'
 import { DEFAULT_DEBOUNCE_TIME, ONE } from '@shared//constants'
-import { TasksSearchParameters, TaskStatus } from '@shared/models/task.model'
-import { TaskRequest } from '@shared/models/task-request.model'
+import {
+  TaskRequest,
+  TasksSearchParameters,
+} from '@shared/models/task-request.model'
+import { TaskStatus } from '@shared/models/task-response.model'
 import { UserResponse, UserRole } from '@shared/models/user-response.model'
 import { OverlayPanel } from 'primeng/overlaypanel'
 import {

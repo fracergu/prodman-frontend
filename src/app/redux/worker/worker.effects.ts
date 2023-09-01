@@ -2,11 +2,9 @@
 import { Injectable } from '@angular/core'
 import { WorkerService } from '@integration/worker/worker.service'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
-import { Store } from '@ngrx/store'
 import { MessageService } from 'primeng/api'
 import { catchError, map, of, switchMap } from 'rxjs'
 
-import { AppState } from '../app.state'
 import { WorkerActions, WorkerActionType } from './worker.actions'
 
 @Injectable()
@@ -15,7 +13,6 @@ export class WorkerEffects {
     private _actions$: Actions,
     private _workerService: WorkerService,
     private _ms: MessageService,
-    private _store: Store<AppState>,
   ) {}
 
   loadTask$ = createEffect(() =>
@@ -61,7 +58,6 @@ export class WorkerEffects {
         this._workerService.completeTask(payload).pipe(
           map(() => {
             this._showSuccessMessage('Tarea actualizada')
-            this._store.dispatch(WorkerActions.loadTask())
             return WorkerActions.completeTaskSuccess()
           }),
           catchError(error => {
@@ -70,6 +66,13 @@ export class WorkerEffects {
           }),
         ),
       ),
+    ),
+  )
+
+  completeTaskSuccess$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(WorkerActionType.COMPLETE_TASK_SUCCESS),
+      map(() => WorkerActions.loadTask()),
     ),
   )
 

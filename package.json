@@ -9,7 +9,7 @@
     "test": "jest",
     "format:check": "prettier --check \"src/**/*.ts\" \"src/**/*.html\"",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.html\"",
-    "generate-api": "openapi-typescript http://localhost:3000/api/v1/openapi --output @integration/api-schemas.d.ts",
+    "generate-api": "openapi-typescript http://localhost:3000/api/v1/openapi --output src/app/integration/api-schemas.d.ts",
     "lint:check": "ng lint",
     "lint": "ng lint --fix"
   },

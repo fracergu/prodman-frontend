@@ -2,9 +2,9 @@
 import { Injectable } from '@angular/core'
 import { TasksService } from '@integration/tasks/tasks.service'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
+import { DEFAULT_PAGE_SIZE, ONE } from '@shared//constants'
 import { MessageService } from 'primeng/api'
 import { catchError, map, of, switchMap } from 'rxjs'
-import { DEFAULT_PAGE_SIZE, ONE } from '@shared//constants'
 
 import { TasksActions, TasksActionType } from './tasks.actions'
 

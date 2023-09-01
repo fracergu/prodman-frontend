@@ -5,6 +5,7 @@ import { AuthActions } from '@redux/auth/auth.actions'
 import { selectConfig } from '@redux/config/config.selectors'
 import { WorkerActions } from '@redux/worker/worker.actions'
 import { selectWorkerTask } from '@redux/worker/worker.selectors'
+import { ONE, ZERO } from '@shared//constants'
 import { AppConfigurationResponse } from '@shared/models/app-configuration-response.model'
 import {
   distinctUntilChanged,
@@ -13,8 +14,8 @@ import {
   Subject,
   take,
   takeUntil,
+  tap,
 } from 'rxjs'
-import { ONE, ZERO } from '@shared//constants'
 
 const PROGRESS_INITIAL_VALUE = 100
 const ONE_SECOND = 1000
@@ -104,7 +105,7 @@ export class WorkerComponent implements OnInit, OnDestroy {
     )
 
   workerAutoTimeout$ = this._store.select(selectConfig).pipe(
-    map(config => config?.workerAutoTimeout && config.workerAutoTimeout > ZERO),
+    map(config => config !== undefined && config.workerAutoTimeout > ZERO),
     shareReplay({ bufferSize: ONE, refCount: true }),
     distinctUntilChanged(),
   )

@@ -19,12 +19,12 @@ export class AuthenticationService
     private _api: Api,
   ) {}
 
-  login(credentials: AuthCredentials, rememberMe?: boolean): Observable<null> {
+  login(credentials: AuthCredentials, rememberMe?: boolean): Observable<void> {
     const headers = new HttpHeaders().append(
       'Authorization',
       `Basic ${btoa(credentials.username + ':' + credentials.password)}`,
     )
-    return this._http.post<null>(
+    return this._http.post<void>(
       `${this._api.authUrl}/login`,
       { rememberMe },
       {

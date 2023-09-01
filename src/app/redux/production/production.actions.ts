@@ -15,17 +15,17 @@ export enum ProductionActionType {
   LOAD_OVEVIEW_FAILURE = '[Production] Load Overview Failure',
 }
 
-export const loadProductions = createAction(
+export const loadProduction = createAction(
   ProductionActionType.LOAD_PRODUCTIONS,
   props<{ params: ProductionSearchParameters }>(),
 )
 
-export const loadProductionsSuccess = createAction(
+export const loadProductionSuccess = createAction(
   ProductionActionType.LOAD_PRODUCTIONS_SUCCESS,
   props<PaginatedResponse<ProductionResponse>>(),
 )
 
-export const loadProductionsFailure = createAction(
+export const loadProductionFailure = createAction(
   ProductionActionType.LOAD_PRODUCTIONS_FAILURE,
   props<{ error: string }>(),
 )
@@ -46,9 +46,9 @@ export const loadOverviewFailure = createAction(
 )
 
 export const ProductionActions = {
-  loadProductions,
-  loadProductionsSuccess,
-  loadProductionsFailure,
+  loadProduction,
+  loadProductionSuccess,
+  loadProductionFailure,
   loadOverview,
   loadOverviewSuccess,
   loadOverviewFailure,

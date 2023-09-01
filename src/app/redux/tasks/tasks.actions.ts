@@ -1,7 +1,10 @@
 import { createAction, props } from '@ngrx/store'
 import { PaginatedResponse } from '@shared/models/paginated-response'
-import { TaskResponse, TasksSearchParameters } from '@shared/models/task.model'
-import { TaskRequest } from '@shared/models/task-request.model'
+import {
+  TaskRequest,
+  TasksSearchParameters,
+} from '@shared/models/task-request.model'
+import { TaskResponse } from '@shared/models/task-response.model'
 
 export enum TasksActionType {
   LOAD_TASKS = '[Task] Load Tasks',
