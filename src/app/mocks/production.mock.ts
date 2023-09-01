@@ -71,7 +71,6 @@ export const PRODUCTION_REPORT_RESPONSE_MOCK: ProductionReportResponse = {
       },
       '8': {
         name: 'Maria',
-        lastName: 'Moreno',
       },
     },
     productsList: {

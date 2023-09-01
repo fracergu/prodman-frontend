@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms'
+import { FormBuilder } from '@angular/forms'
 import { provideMockStore, MockStore } from '@ngrx/store/testing'
 import { ProductionListComponent } from './production-list.component'
 import { AppState } from '@redux/app.state'
 import { initialAppStateMock as initialState } from '@redux/app.state.mock'
+import { SharedModule } from '@shared/shared.module'
 
 describe('ProductionListComponent', () => {
   let component: ProductionListComponent
@@ -13,7 +14,7 @@ describe('ProductionListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ProductionListComponent],
-      imports: [ReactiveFormsModule],
+      imports: [SharedModule],
       providers: [FormBuilder, provideMockStore({ initialState })],
     }).compileComponents()
 

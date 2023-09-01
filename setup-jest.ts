@@ -10,6 +10,15 @@ const mock = () => {
   }
 }
 
+const resizerObserverMock = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}))
+
 Object.defineProperty(window, 'localStorage', { value: mock() })
 Object.defineProperty(window, 'location', { value: mock() })
 Object.defineProperty(window, 'sessionStorage', { value: mock() })
+Object.defineProperty(window, 'ResizeObserver', {
+  value: resizerObserverMock,
+})

@@ -17,10 +17,10 @@ interface GeneralStats {
 
 interface EmployeesList {
   name: string
-  lastName: string
+  lastName?: string
 }
 
 interface ProductsList {
   name: string
-  reference: string
+  reference?: string
 }
